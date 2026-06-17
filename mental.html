@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness - MedMind AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#logoGradient7)" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="8" fill="white"/>
+                        <defs>
+                            <linearGradient id="logoGradient7" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>MedMind AI</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="home.html" class="nav-link" data-page="home">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="ai.html" class="nav-link" data-page="ai">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>AI Chat</span>
+                </a>
+                <a href="meds.html" class="nav-link" data-page="meds">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+                    </svg>
+                    <span>Medicines</span>
+                </a>
+                <a href="mental.html" class="nav-link active" data-page="mental">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+                    </svg>
+                    <span>Wellness</span>
+                </a>
+                <a href="doctor.html" class="nav-link" data-page="doctor">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M11.99 5.52C7.957 5.52 4.73 8.75 4.73 12.78s3.23 7.26 7.27 7.26 7.27-3.23 7.27-7.26-3.23-7.26-7.28-7.26zM13 13h-2v2h-2v-2H7v-2h2v-2h2v2h2v2z"/>
+                    </svg>
+                    <span>Doctors</span>
+                </a>
+                <a href="profile.html" class="nav-link" data-page="profile">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Mental Health & Wellness</h1>
+            <p>Track your mood, stress, and sleep patterns</p>
+        </div>
+    </header>
+
+    <main class="mental-container">
+        <!-- Mood & Stress Overview -->
+        <section class="wellness-overview">
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Today's Mood</h3>
+                    <div class="mood-selector" id="moodSelector">
+                        <button class="mood-btn" data-mood="terrible" title="Terrible">😞</button>
+                        <button class="mood-btn" data-mood="sad" title="Sad">😕</button>
+                        <button class="mood-btn" data-mood="okay" title="Okay">😐</button>
+                        <button class="mood-btn" data-mood="good" title="Good">🙂</button>
+                        <button class="mood-btn" data-mood="excellent" title="Excellent">😄</button>
+                    </div>
+                    <p class="mood-label" id="moodLabel">How are you feeling today?</p>
+                </div>
+
+                <div class="overview-card">
+                    <h3>Stress Level</h3>
+                    <div class="stress-meter">
+                        <div class="stress-indicator" id="stressIndicator">
+                            <div class="stress-value">
+                                <span id="stressScore">45</span>
+                                <span>%</span>
+                            </div>
+                        </div>
+                        <p class="stress-label" id="stressLabel">Moderate</p>
+                    </div>
+                    <input type="range" min="0" max="100" value="45" class="stress-slider" id="stressSlider" onchange="updateStress(this.value)">
+                </div>
+
+                <div class="overview-card">
+                    <h3>Sleep Quality</h3>
+                    <div class="sleep-stats">
+                        <div class="sleep-item">
+                            <p class="label">Duration</p>
+                            <h4 id="sleepDuration">7.5</h4>
+                            <p class="unit">hours</p>
+                        </div>
+                        <div class="sleep-item">
+                            <p class="label">Quality</p>
+                            <h4 id="sleepQuality">Good</h4>
+                            <p class="unit">rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meditation & Breathing -->
+        <section class="meditation-section">
+            <h2 class="section-title">Meditation & Breathing</h2>
+            <div class="meditation-grid">
+                <div class="meditation-card">
+                    <h3>Breathing Exercise</h3>
+                    <p class="exercise-desc">4-7-8 breathing technique for relaxation</p>
+                    <button class="btn btn-primary" onclick="startBreathingExercise()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Start Exercise</span>
+                    </button>
+                </div>
+
+                <div class="meditation-card">
+                    <h3>Guided Meditation</h3>
+                    <p class="exercise-desc">10-minute relaxation meditation</p>
+                    <button class="btn btn-primary" onclick="startMeditation()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Start Meditation</span>
+                    </button>
+                </div>
+
+                <div class="meditation-card">
+                    <h3>Anxiety Relief</h3>
+                    <p class="exercise-desc">Quick 5-minute anxiety relief routine</p>
+                    <button class="btn btn-primary" onclick="startAnxietyRelief()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Start Session</span>
+                    </button>
+                </div>
+
+                <div class="meditation-card">
+                    <h3>Sleep Story</h3>
+                    <p class="exercise-desc">Relaxing sleep story to help you drift off</p>
+                    <button class="btn btn-primary" onclick="startSleepStory()">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Start Story</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breathing Animation Modal -->
+        <div class="modal" id="breathingModal">
+            <div class="modal-content breathing-modal">
+                <div class="modal-header">
+                    <h2>Breathing Exercise</h2>
+                    <button class="modal-close" onclick="closeBreathingModal()">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="breathing-exercise">
+                    <div class="breathing-circle" id="breathingCircle"></div>
+                    <div class="breathing-text">
+                        <h3 id="breathingInstruction">Inhale</h3>
+                        <p id="breathingCount">4 seconds</p>
+                    </div>
+                    <p class="exercise-info">Follow the circle and your breathing pattern</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mood Journal -->
+        <section class="journal-section">
+            <div class="section-header">
+                <h2 class="section-title">Mood Journal</h2>
+                <button class="btn btn-small btn-primary" onclick="openJournalModal()">
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/>
+                    </svg>
+                    <span>New Entry</span>
+                </button>
+            </div>
+            <div class="journal-entries" id="journalEntries">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Weekly Analytics -->
+        <section class="analytics-section">
+            <h2 class="section-title">Weekly Overview</h2>
+            <div class="analytics-grid">
+                <div class="chart-card">
+                    <h3>Mood Pattern</h3>
+                    <div class="mood-chart" id="moodChart">
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 60%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Mon</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 75%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Tue</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 70%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Wed</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 65%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Thu</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 80%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Fri</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 85%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Sat</span>
+                        </div>
+                        <div class="day-bar">
+                            <div class="bar-fill" style="height: 90%; background: linear-gradient(to top, #10b981, #06b6d4);"></div>
+                            <span class="day-label">Sun</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Sleep Pattern</h3>
+                    <div class="sleep-chart" id="sleepChart">
+                        <div class="sleep-day">
+                            <span class="label">Mon</span>
+                            <div class="sleep-bar" style="width: 75%;"></div>
+                            <span class="value">6h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Tue</span>
+                            <div class="sleep-bar" style="width: 85%;"></div>
+                            <span class="value">7h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Wed</span>
+                            <div class="sleep-bar" style="width: 90%;"></div>
+                            <span class="value">7.5h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Thu</span>
+                            <div class="sleep-bar" style="width: 80%;"></div>
+                            <span class="value">7h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Fri</span>
+                            <div class="sleep-bar" style="width: 70%;"></div>
+                            <span class="value">6h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Sat</span>
+                            <div class="sleep-bar" style="width: 95%;"></div>
+                            <span class="value">8h</span>
+                        </div>
+                        <div class="sleep-day">
+                            <span class="label">Sun</span>
+                            <div class="sleep-bar" style="width: 88%;"></div>
+                            <span class="value">7.5h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Wellness Suggestions -->
+        <section class="suggestions-section">
+            <h2 class="section-title">AI Wellness Suggestions</h2>
+            <div class="suggestions-list">
+                <div class="suggestion-card">
+                    <div class="suggestion-icon">💡</div>
+                    <div class="suggestion-content">
+                        <h4>Increase Water Intake</h4>
+                        <p>Your mood variations could improve with better hydration. Aim for 8-10 glasses daily.</p>
+                    </div>
+                </div>
+
+                <div class="suggestion-card">
+                    <div class="suggestion-icon">🏃</div>
+                    <div class="suggestion-content">
+                        <h4>More Regular Exercise</h4>
+                        <p>30 minutes of moderate exercise daily can significantly improve mood and sleep quality.</p>
+                    </div>
+                </div>
+
+                <div class="suggestion-card">
+                    <div class="suggestion-icon">🧘</div>
+                    <div class="suggestion-content">
+                        <h4>Daily Meditation</h4>
+                        <p>Your stress levels could benefit from 10-15 minutes of daily meditation practice.</p>
+                    </div>
+                </div>
+
+                <div class="suggestion-card">
+                    <div class="suggestion-icon">⏰</div>
+                    <div class="suggestion-content">
+                        <h4>Consistent Sleep Schedule</h4>
+                        <p>Try to sleep and wake at the same time each day for better sleep quality.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Journal Modal -->
+    <div class="modal" id="journalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New Journal Entry</h2>
+                <button class="modal-close" onclick="closeJournalModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="journalForm" onsubmit="saveJournalEntry(event)">
+                <div class="form-group">
+                    <label for="journalMood">How are you feeling?</label>
+                    <select id="journalMood" required>
+                        <option value="">Select mood</option>
+                        <option value="😞">Terrible</option>
+                        <option value="😕">Sad</option>
+                        <option value="😐">Okay</option>
+                        <option value="🙂">Good</option>
+                        <option value="😄">Excellent</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="journalTitle">Title (optional)</label>
+                    <input type="text" id="journalTitle" placeholder="Give your entry a title">
+                </div>
+
+                <div class="form-group">
+                    <label for="journalContent">What's on your mind?</label>
+                    <textarea id="journalContent" rows="5" required placeholder="Write your thoughts here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="journalTags">Tags (optional)</label>
+                    <input type="text" id="journalTags" placeholder="e.g., work, stress, happiness">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeJournalModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item" data-page="home">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="ai.html" class="nav-item" data-page="ai">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>AI</span>
+        </a>
+        <a href="meds.html" class="nav-item" data-page="meds">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+            </svg>
+            <span>Meds</span>
+        </a>
+        <a href="mental.html" class="nav-item active" data-page="mental">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+            </svg>
+            <span>Wellness</span>
+        </a>
+        <a href="profile.html" class="nav-item" data-page="profile">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let journalEntries = JSON.parse(localStorage.getItem('medmind_journal')) || [];
+
+        // Mood tracking
+        document.getElementById('moodSelector').querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const mood = this.dataset.mood;
+                const moodLabels = {
+                    'terrible': '😞 Not Good',
+                    'sad': '😕 Sad',
+                    'okay': '😐 Okay',
+                    'good': '🙂 Good',
+                    'excellent': '😄 Excellent'
+                };
+                document.getElementById('moodLabel').textContent = moodLabels[mood];
+                showNotification('Mood recorded: ' + moodLabels[mood], 'success');
+            });
+        });
+
+        function updateStress(value) {
+            document.getElementById('stressScore').textContent = value;
+            const indicator = document.getElementById('stressIndicator');
+            if (value < 33) {
+                document.getElementById('stressLabel').textContent = 'Low';
+                indicator.style.borderColor = '#10b981';
+            } else if (value < 66) {
+                document.getElementById('stressLabel').textContent = 'Moderate';
+                indicator.style.borderColor = '#f59e0b';
+            } else {
+                document.getElementById('stressLabel').textContent = 'High';
+                indicator.style.borderColor = '#ef4444';
+            }
+        }
+
+        function startBreathingExercise() {
+            document.getElementById('breathingModal').classList.add('active');
+            const circle = document.getElementById('breathingCircle');
+            const instruction = document.getElementById('breathingInstruction');
+            const count = document.getElementById('breathingCount');
+
+            let phase = 0;
+            const phases = [
+                { text: 'Inhale', duration: 4, count: 4 },
+                { text: 'Hold', duration: 7, count: 7 },
+                { text: 'Exhale', duration: 8, count: 8 }
+            ];
+
+            function breathe() {
+                const phase_data = phases[phase % 3];
+                instruction.textContent = phase_data.text;
+                circle.style.animation = `breathe ${phase_data.duration}s ease-in-out`;
+
+                let counter = phase_data.count;
+                const timer = setInterval(() => {
+                    count.textContent = counter + ' seconds';
+                    counter--;
+                    if (counter < 0) clearInterval(timer);
+                }, 1000);
+
+                setTimeout(() => {
+                    phase++;
+                    breathe();
+                }, phase_data.duration * 1000);
+            }
+
+            breathe();
+        }
+
+        function startMeditation() {
+            showNotification('Starting 10-minute guided meditation...', 'info');
+            setTimeout(() => {
+                showNotification('Meditation completed! Great job taking care of yourself.', 'success');
+            }, 10000);
+        }
+
+        function startAnxietyRelief() {
+            showNotification('Starting 5-minute anxiety relief session...', 'info');
+            setTimeout(() => {
+                showNotification('Session complete! You\'re doing great.', 'success');
+            }, 5000);
+        }
+
+        function startSleepStory() {
+            showNotification('Starting sleep story... Sweet dreams!', 'info');
+        }
+
+        function closeBreathingModal() {
+            document.getElementById('breathingModal').classList.remove('active');
+        }
+
+        function openJournalModal() {
+            document.getElementById('journalForm').reset();
+            document.getElementById('journalModal').classList.add('active');
+        }
+
+        function closeJournalModal() {
+            document.getElementById('journalModal').classList.remove('active');
+        }
+
+        function saveJournalEntry(e) {
+            e.preventDefault();
+
+            const entry = {
+                id: Date.now(),
+                mood: document.getElementById('journalMood').value,
+                title: document.getElementById('journalTitle').value,
+                content: document.getElementById('journalContent').value,
+                tags: document.getElementById('journalTags').value,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+
+            journalEntries.unshift(entry);
+            localStorage.setItem('medmind_journal', JSON.stringify(journalEntries));
+            loadJournalEntries();
+            closeJournalModal();
+            showNotification('Journal entry saved', 'success');
+        }
+
+        function loadJournalEntries() {
+            const container = document.getElementById('journalEntries');
+            if (journalEntries.length === 0) {
+                container.innerHTML = '<p class="empty-state">No journal entries yet. Start writing your first entry!</p>';
+                return;
+            }
+
+            container.innerHTML = journalEntries.map(entry => `
+                <div class="journal-card">
+                    <div class="journal-header">
+                        <div>
+                            <h3>${entry.title || 'Untitled Entry'}</h3>
+                            <p class="journal-date">${entry.date} at ${entry.time}</p>
+                        </div>
+                        <div class="journal-mood">${entry.mood}</div>
+                    </div>
+                    <p class="journal-content">${entry.content}</p>
+                    ${entry.tags ? `<div class="journal-tags">${entry.tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('journalModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('journalModal')) {
+                closeJournalModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadJournalEntries);
+    </script>
+</body>
+</html>

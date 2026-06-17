@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - MedMind AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#logoGradient5)" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="8" fill="white"/>
+                        <defs>
+                            <linearGradient id="logoGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>MedMind AI</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="home.html" class="nav-link" data-page="home">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="ai.html" class="nav-link active" data-page="ai">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>AI Chat</span>
+                </a>
+                <a href="meds.html" class="nav-link" data-page="meds">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+                    </svg>
+                    <span>Medicines</span>
+                </a>
+                <a href="mental.html" class="nav-link" data-page="mental">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+                    </svg>
+                    <span>Wellness</span>
+                </a>
+                <a href="doctor.html" class="nav-link" data-page="doctor">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M11.99 5.52C7.957 5.52 4.73 8.75 4.73 12.78s3.23 7.26 7.27 7.26 7.27-3.23 7.27-7.26-3.23-7.26-7.28-7.26zM13 13h-2v2h-2v-2H7v-2h2v-2h2v2h2v2z"/>
+                    </svg>
+                    <span>Doctors</span>
+                </a>
+                <a href="profile.html" class="nav-link" data-page="profile">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="ai-container">
+        <!-- Chat Area -->
+        <div class="chat-wrapper">
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-section">
+                    <h1>MedMind AI Assistant</h1>
+                    <p>Your personal health companion powered by advanced AI</p>
+                    
+                    <div class="suggested-prompts">
+                        <h3>What can I help you with?</h3>
+                        <div class="prompts-grid">
+                            <button class="prompt-card" onclick="sendPrompt('What are my key health metrics and should I be concerned about anything?')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <span>Analyze my health</span>
+                            </button>
+                            <button class="prompt-card" onclick="sendPrompt('Suggest a wellness plan for me')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/>
+                                </svg>
+                                <span>Wellness plan</span>
+                            </button>
+                            <button class="prompt-card" onclick="sendPrompt('Explain the side effects of my current medications')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+                                </svg>
+                                <span>Medicine info</span>
+                            </button>
+                            <button class="prompt-card" onclick="sendPrompt('Give me nutrition tips based on my health profile')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8z"/>
+                                </svg>
+                                <span>Nutrition advice</span>
+                            </button>
+                            <button class="prompt-card" onclick="sendPrompt('What exercises would you recommend for me?')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9L8 19.35V9h3v7.35l1.39 9.03c.36 2.3 2.4 4 4.74 4 2.65 0 4.8-2.25 4.8-5s-2.15-5-4.8-5c-1.04 0-2.05.3-2.9.84v-2.16c1.12-.52 2.74-.73 4.1-.73 3.87 0 6.99 3.13 6.99 7s-3.12 7-6.99 7c-3.23 0-6.06-2.25-6.74-5.22z"/>
+                                </svg>
+                                <span>Exercise routine</span>
+                            </button>
+                            <button class="prompt-card" onclick="sendPrompt('Predict my health risks based on my data')">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                </svg>
+                                <span>Risk assessment</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-area">
+                <form class="chat-form" id="chatForm" onsubmit="sendMessage(event)">
+                    <div class="input-controls">
+                        <button type="button" class="voice-btn" id="voiceBtn" title="Voice input">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                            </svg>
+                        </button>
+                        <input 
+                            type="text" 
+                            id="chatInput" 
+                            placeholder="Ask me about your health..." 
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="send-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.9429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.01449637 C3.34915502,0.9914179 2.40734225,0.9914179 1.77946707,1.48988963 C0.994623095,2.13399899 0.837654326,3.0765833 1.15159189,3.86155202 L3.03521743,10.3025451 C3.03521743,10.4596425 3.19218622,10.6167399 3.50612381,10.6167399 L16.6915026,11.4022268 C16.6915026,11.4022268 17.1624089,11.4022268 17.1624089,11.9735189 C17.1624089,12.4744748 16.6915026,12.4744748 16.6915026,12.4744748 Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <p class="chat-disclaimer">MedMind AI provides health insights based on your data. Always consult healthcare professionals for medical decisions.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item" data-page="home">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="ai.html" class="nav-item active" data-page="ai">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>AI</span>
+        </a>
+        <a href="meds.html" class="nav-item" data-page="meds">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+            </svg>
+            <span>Meds</span>
+        </a>
+        <a href="mental.html" class="nav-item" data-page="mental">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+            </svg>
+            <span>Wellness</span>
+        </a>
+        <a href="profile.html" class="nav-item" data-page="profile">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const aiResponses = {
+            'health': 'Your overall health score is 78/100 which is very good. Your heart rate is stable at 72 bpm and blood pressure is within normal range. Keep up the great work with hydration and sleep!',
+            'wellness': 'I recommend a balanced wellness plan: 1) Maintain 8 hours of sleep, 2) Exercise 30-60 minutes daily, 3) Drink 8 glasses of water, 4) Manage stress with meditation, 5) Eat a balanced diet with vegetables.',
+            'medicine': 'Your current medications are: Aspirin 500mg (once daily), Vitamin D 1000IU (with meals), and Lisinopril 10mg (evening). Common side effects are minimal when taken as prescribed. Always consult with your doctor before making changes.',
+            'nutrition': 'Based on your health profile, I recommend: More lean proteins, whole grains, and vegetables. Limit sodium to under 2300mg daily. Stay hydrated. Consider Mediterranean diet. Avoid processed foods and excess sugar. Eat 5 portions of fruit/veg daily.',
+            'exercise': 'Recommended exercises for you: Brisk walking (30 mins, 5x/week), Swimming (low-impact), Yoga (flexibility), Light strength training (2x/week). Start gradually and increase intensity. Warm up for 5 mins before and cool down after.',
+            'risk': 'Based on your metrics, your health risks are low. Continue monitoring your blood pressure regularly. Your BMI is healthy. Maintain current exercise routine. Get annual checkups. Stay updated with vaccinations.'
+        };
+
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addMessage(response, 'ai');
+            }, 1500);
+        }
+
+        function sendPrompt(prompt) {
+            document.getElementById('chatInput').value = prompt;
+            sendMessage({ preventDefault: () => {} });
+        }
+
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            if (sender === 'ai') {
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <div class="message-text">${text}</div>
+                            <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <div class="message-text">${text}</div>
+                            <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateAIResponse(userMessage) {
+            const lower = userMessage.toLowerCase();
+            
+            if (lower.includes('health') || lower.includes('metric')) return aiResponses['health'];
+            if (lower.includes('wellness') || lower.includes('plan')) return aiResponses['wellness'];
+            if (lower.includes('medicine') || lower.includes('drug') || lower.includes('medication')) return aiResponses['medicine'];
+            if (lower.includes('nutrition') || lower.includes('diet') || lower.includes('food')) return aiResponses['nutrition'];
+            if (lower.includes('exercise') || lower.includes('workout') || lower.includes('fitness')) return aiResponses['exercise'];
+            if (lower.includes('risk') || lower.includes('predict')) return aiResponses['risk'];
+            
+            const defaultResponses = [
+                'Based on your health data, you\'re doing well. Keep maintaining your current routine and monitor your metrics regularly.',
+                'That\'s a great question! Your health profile shows you\'re in good shape. Continue with regular checkups and healthy habits.',
+                'I\'d recommend discussing this with your healthcare provider for personalized advice. In the meantime, maintain your current exercise and nutrition routine.',
+                'Your data shows positive trends. Keep up the excellent health habits and monitor your vitals regularly.',
+                'This is an important health consideration. Track your symptoms and share them with your doctor at your next visit.'
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Voice input simulation
+        document.getElementById('voiceBtn').addEventListener('click', function() {
+            const voiceBtn = this;
+            voiceBtn.classList.add('listening');
+            
+            setTimeout(() => {
+                voiceBtn.classList.remove('listening');
+                showNotification('Voice input simulated. Try typing your question!', 'info');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

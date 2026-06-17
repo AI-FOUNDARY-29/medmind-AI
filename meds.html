@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicines - MedMind AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#logoGradient6)" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="8" fill="white"/>
+                        <defs>
+                            <linearGradient id="logoGradient6" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>MedMind AI</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="home.html" class="nav-link" data-page="home">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="ai.html" class="nav-link" data-page="ai">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>AI Chat</span>
+                </a>
+                <a href="meds.html" class="nav-link active" data-page="meds">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+                    </svg>
+                    <span>Medicines</span>
+                </a>
+                <a href="mental.html" class="nav-link" data-page="mental">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+                    </svg>
+                    <span>Wellness</span>
+                </a>
+                <a href="doctor.html" class="nav-link" data-page="doctor">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M11.99 5.52C7.957 5.52 4.73 8.75 4.73 12.78s3.23 7.26 7.27 7.26 7.27-3.23 7.27-7.26-3.23-7.26-7.28-7.26zM13 13h-2v2h-2v-2H7v-2h2v-2h2v2h2v2z"/>
+                    </svg>
+                    <span>Doctors</span>
+                </a>
+                <a href="profile.html" class="nav-link" data-page="profile">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Medication Management</h1>
+            <p>Track and manage your medicines</p>
+        </div>
+        <button class="btn btn-primary btn-small" onclick="openAddMedicineModal()">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+                <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            <span>Add Medicine</span>
+        </button>
+    </header>
+
+    <main class="meds-container">
+        <!-- Adherence Overview -->
+        <section class="adherence-section">
+            <div class="adherence-card">
+                <h2>Medication Adherence</h2>
+                <div class="adherence-stats">
+                    <div class="adherence-stat">
+                        <div class="stat-circle" id="adherenceCircle">
+                            <svg class="progress-ring" viewBox="0 0 100 100">
+                                <circle class="progress-ring-bg" cx="50" cy="50" r="40" />
+                                <circle class="progress-ring-fill" cx="50" cy="50" r="40" id="adherenceRing" />
+                            </svg>
+                            <div class="stat-value">
+                                <h3 id="adherencePercent">94</h3>
+                                <p>%</p>
+                            </div>
+                        </div>
+                        <p class="stat-label">This Month</p>
+                    </div>
+                    <div class="adherence-details">
+                        <div class="detail-item">
+                            <span class="detail-icon taken">✓</span>
+                            <div>
+                                <p>Medicines Taken</p>
+                                <h4>28 of 30</h4>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon missed">✕</span>
+                            <div>
+                                <p>Missed Doses</p>
+                                <h4>2</h4>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon streak">🔥</span>
+                            <div>
+                                <p>Current Streak</p>
+                                <h4>8 days</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Medicines -->
+        <section class="active-medicines">
+            <h2 class="section-title">Active Medicines</h2>
+            <div class="medicines-timeline" id="medicinesTimeline">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Today's Schedule -->
+        <section class="schedule-section">
+            <h2 class="section-title">Today's Schedule</h2>
+            <div class="schedule-list" id="scheduleList">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Medicine History -->
+        <section class="history-section">
+            <h2 class="section-title">Previous Medicines</h2>
+            <div class="history-list" id="historyList">
+                <p class="empty-state">No previous medicines recorded</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add/Edit Medicine Modal -->
+    <div class="modal" id="medicineModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Medicine</h2>
+                <button class="modal-close" onclick="closeMedicineModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="medicineForm" onsubmit="saveMedicine(event)">
+                <div class="form-group">
+                    <label for="medicineName">Medicine Name</label>
+                    <input type="text" id="medicineName" required placeholder="e.g., Aspirin">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medicineDosage">Dosage</label>
+                        <input type="text" id="medicineDosage" required placeholder="e.g., 500mg">
+                    </div>
+                    <div class="form-group">
+                        <label for="medicineFrequency">Frequency</label>
+                        <select id="medicineFrequency" required>
+                            <option value="">Select Frequency</option>
+                            <option value="Once daily">Once daily</option>
+                            <option value="Twice daily">Twice daily</option>
+                            <option value="Thrice daily">Thrice daily</option>
+                            <option value="Every 4 hours">Every 4 hours</option>
+                            <option value="Every 6 hours">Every 6 hours</option>
+                            <option value="Every 8 hours">Every 8 hours</option>
+                            <option value="As needed">As needed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medicineTime">Time to Take</label>
+                        <input type="time" id="medicineTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicineReason">Reason/Condition</label>
+                        <input type="text" id="medicineReason" placeholder="e.g., High Blood Pressure">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicineSideEffects">Side Effects (optional)</label>
+                    <textarea id="medicineSideEffects" rows="3" placeholder="Note any side effects..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicineNotes">Additional Notes</label>
+                    <textarea id="medicineNotes" rows="2" placeholder="Take with food, avoid dairy, etc."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeMedicineModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item" data-page="home">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="ai.html" class="nav-item" data-page="ai">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>AI</span>
+        </a>
+        <a href="meds.html" class="nav-item active" data-page="meds">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+            </svg>
+            <span>Meds</span>
+        </a>
+        <a href="mental.html" class="nav-item" data-page="mental">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+            </svg>
+            <span>Wellness</span>
+        </a>
+        <a href="profile.html" class="nav-item" data-page="profile">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const defaultMedicines = [
+            {
+                id: 1,
+                name: 'Aspirin',
+                dosage: '500mg',
+                frequency: 'Once daily',
+                time: '09:00',
+                reason: 'Pain Relief',
+                sideEffects: 'Stomach upset (rare)',
+                notes: 'Take with food',
+                startDate: '2024-01-15',
+                status: 'active'
+            },
+            {
+                id: 2,
+                name: 'Vitamin D',
+                dosage: '1000IU',
+                frequency: 'Once daily',
+                time: '13:00',
+                reason: 'Bone Health',
+                sideEffects: 'None',
+                notes: 'Take with meals',
+                startDate: '2024-02-01',
+                status: 'active'
+            },
+            {
+                id: 3,
+                name: 'Lisinopril',
+                dosage: '10mg',
+                frequency: 'Once daily',
+                time: '19:00',
+                reason: 'Blood Pressure',
+                sideEffects: 'Dizziness (occasional)',
+                notes: 'Take before dinner',
+                startDate: '2024-01-01',
+                status: 'active'
+            }
+        ];
+
+        let medicines = JSON.parse(localStorage.getItem('medmind_medicines')) || defaultMedicines;
+        let editingId = null;
+
+        function loadMedicines() {
+            renderActiveMedicines();
+            renderSchedule();
+            updateAdherence();
+        }
+
+        function renderActiveMedicines() {
+            const timeline = document.getElementById('medicinesTimeline');
+            const activeMeds = medicines.filter(m => m.status === 'active');
+            
+            timeline.innerHTML = activeMeds.map(med => `
+                <div class="medicine-card">
+                    <div class="medicine-header">
+                        <div>
+                            <h3>${med.name}</h3>
+                            <p class="medicine-dosage">${med.dosage}</p>
+                        </div>
+                        <div class="medicine-frequency">${med.frequency}</div>
+                    </div>
+                    <div class="medicine-details">
+                        <div class="detail">
+                            <span class="label">Time:</span>
+                            <span class="value">${med.time}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Reason:</span>
+                            <span class="value">${med.reason}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Side Effects:</span>
+                            <span class="value">${med.sideEffects}</span>
+                        </div>
+                        ${med.notes ? `<div class="detail"><span class="label">Notes:</span><span class="value">${med.notes}</span></div>` : ''}
+                    </div>
+                    <div class="medicine-actions">
+                        <button class="action-btn" onclick="editMedicine(${med.id})">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteMedicine(${med.id})">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSchedule() {
+            const schedule = document.getElementById('scheduleList');
+            const activeMeds = medicines.filter(m => m.status === 'active').sort((a, b) => a.time.localeCompare(b.time));
+            
+            schedule.innerHTML = activeMeds.map(med => `
+                <div class="schedule-item">
+                    <div class="schedule-time">${med.time}</div>
+                    <div class="schedule-medicine">
+                        <h4>${med.name}</h4>
+                        <p>${med.dosage} • ${med.reason}</p>
+                    </div>
+                    <button class="checkbox-btn" onclick="markScheduleTaken(this)">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function updateAdherence() {
+            const circumference = 2 * Math.PI * 40;
+            const adherence = 94;
+            const offset = circumference - (adherence / 100) * circumference;
+            
+            const ring = document.getElementById('adherenceRing');
+            ring.style.strokeDasharray = circumference;
+            ring.style.strokeDashoffset = offset;
+        }
+
+        function openAddMedicineModal() {
+            editingId = null;
+            document.getElementById('modalTitle').textContent = 'Add Medicine';
+            document.getElementById('medicineForm').reset();
+            document.getElementById('medicineModal').classList.add('active');
+        }
+
+        function closeMedicineModal() {
+            document.getElementById('medicineModal').classList.remove('active');
+        }
+
+        function saveMedicine(e) {
+            e.preventDefault();
+            
+            const medicine = {
+                id: editingId || Date.now(),
+                name: document.getElementById('medicineName').value,
+                dosage: document.getElementById('medicineDosage').value,
+                frequency: document.getElementById('medicineFrequency').value,
+                time: document.getElementById('medicineTime').value,
+                reason: document.getElementById('medicineReason').value,
+                sideEffects: document.getElementById('medicineSideEffects').value,
+                notes: document.getElementById('medicineNotes').value,
+                startDate: new Date().toISOString().split('T')[0],
+                status: 'active'
+            };
+
+            if (editingId) {
+                medicines = medicines.map(m => m.id === editingId ? medicine : m);
+            } else {
+                medicines.push(medicine);
+            }
+
+            localStorage.setItem('medmind_medicines', JSON.stringify(medicines));
+            loadMedicines();
+            closeMedicineModal();
+            showNotification('Medicine saved successfully', 'success');
+        }
+
+        function editMedicine(id) {
+            const med = medicines.find(m => m.id === id);
+            if (!med) return;
+
+            editingId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Medicine';
+            document.getElementById('medicineName').value = med.name;
+            document.getElementById('medicineDosage').value = med.dosage;
+            document.getElementById('medicineFrequency').value = med.frequency;
+            document.getElementById('medicineTime').value = med.time;
+            document.getElementById('medicineReason').value = med.reason;
+            document.getElementById('medicineSideEffects').value = med.sideEffects;
+            document.getElementById('medicineNotes').value = med.notes;
+            
+            document.getElementById('medicineModal').classList.add('active');
+        }
+
+        function deleteMedicine(id) {
+            if (confirm('Are you sure you want to delete this medicine?')) {
+                medicines = medicines.filter(m => m.id !== id);
+                localStorage.setItem('medmind_medicines', JSON.stringify(medicines));
+                loadMedicines();
+                showNotification('Medicine deleted', 'success');
+            }
+        }
+
+        function markScheduleTaken(btn) {
+            btn.closest('.schedule-item').classList.add('taken');
+            btn.disabled = true;
+            showNotification('Medicine marked as taken', 'success');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadMedicines);
+        document.getElementById('medicineModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('medicineModal')) {
+                closeMedicineModal();
+            }
+        });
+    </script>
+</body>
+</html>

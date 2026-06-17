@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors & Appointments - MedMind AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#logoGradient8)" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="8" fill="white"/>
+                        <defs>
+                            <linearGradient id="logoGradient8" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>MedMind AI</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="home.html" class="nav-link" data-page="home">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="ai.html" class="nav-link" data-page="ai">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>AI Chat</span>
+                </a>
+                <a href="meds.html" class="nav-link" data-page="meds">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+                    </svg>
+                    <span>Medicines</span>
+                </a>
+                <a href="mental.html" class="nav-link" data-page="mental">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+                    </svg>
+                    <span>Wellness</span>
+                </a>
+                <a href="doctor.html" class="nav-link active" data-page="doctor">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M11.99 5.52C7.957 5.52 4.73 8.75 4.73 12.78s3.23 7.26 7.27 7.26 7.27-3.23 7.27-7.26-3.23-7.26-7.28-7.26zM13 13h-2v2h-2v-2H7v-2h2v-2h2v2h2v2z"/>
+                    </svg>
+                    <span>Doctors</span>
+                </a>
+                <a href="profile.html" class="nav-link" data-page="profile">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="header-content">
+            <h1>Find a Doctor</h1>
+            <p>Book appointments and manage your healthcare</p>
+        </div>
+    </header>
+
+    <main class="doctor-container">
+        <!-- Emergency Button -->
+        <div class="emergency-alert">
+            <div class="alert-content">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                </svg>
+                <div>
+                    <h3>Medical Emergency?</h3>
+                    <p>Call 911 or contact your nearest emergency room immediately</p>
+                </div>
+            </div>
+            <button class="btn btn-small btn-danger" onclick="callEmergency()">Call Now</button>
+        </div>
+
+        <!-- Search & Filter -->
+        <section class="search-filter-section">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <input type="text" id="doctorSearch" placeholder="Search by name, specialty..." onkeyup="filterDoctors()">
+            </div>
+
+            <div class="filter-group">
+                <select id="specialtyFilter" onchange="filterDoctors()">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Dermatologist">Dermatologist</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <option value="Physician">General Physician</option>
+                    <option value="Surgeon">Surgeon</option>
+                    <option value="Pediatrician">Pediatrician</option>
+                </select>
+
+                <select id="availabilityFilter" onchange="filterDoctors()">
+                    <option value="">All Times</option>
+                    <option value="morning">Morning (6 AM - 12 PM)</option>
+                    <option value="afternoon">Afternoon (12 PM - 6 PM)</option>
+                    <option value="evening">Evening (6 PM - 10 PM)</option>
+                </select>
+
+                <select id="ratingFilter" onchange="filterDoctors()">
+                    <option value="">All Ratings</option>
+                    <option value="4.5">4.5+ Stars</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="3">3+ Stars</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Emergency Doctors -->
+        <section class="emergency-doctors-section">
+            <h2 class="section-title">Available for Emergency Consultation</h2>
+            <div class="doctors-grid" id="emergencyDoctors">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- All Doctors -->
+        <section class="all-doctors-section">
+            <h2 class="section-title">Doctors</h2>
+            <div class="doctors-grid" id="doctorsList">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Hospitals Nearby -->
+        <section class="hospitals-section">
+            <h2 class="section-title">Hospitals Nearby</h2>
+            <div class="hospitals-list" id="hospitalsList">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- My Appointments -->
+        <section class="appointments-section">
+            <div class="section-header">
+                <h2 class="section-title">My Appointments</h2>
+            </div>
+            <div class="appointments-list" id="appointmentsList">
+                <p class="empty-state">No appointments booked yet</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Book Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Book Appointment</h2>
+                <button class="modal-close" onclick="closeAppointmentModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="appointmentForm" onsubmit="saveAppointment(event)">
+                <div class="form-group">
+                    <label>Doctor</label>
+                    <p id="appointmentDoctor" style="font-weight: 500; color: var(--primary-color);"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentDate">Preferred Date</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentTime">Preferred Time</label>
+                    <select id="appointmentTime" required>
+                        <option value="">Select Time Slot</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="09:30">9:30 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="02:00">2:00 PM</option>
+                        <option value="02:30">2:30 PM</option>
+                        <option value="03:00">3:00 PM</option>
+                        <option value="03:30">3:30 PM</option>
+                        <option value="04:00">4:00 PM</option>
+                        <option value="05:00">5:00 PM</option>
+                        <option value="05:30">5:30 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentReason">Reason for Visit</label>
+                    <textarea id="appointmentReason" rows="3" required placeholder="Describe your symptoms or reason for visit..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentNotes">Additional Notes (optional)</label>
+                    <textarea id="appointmentNotes" rows="2" placeholder="Any additional information for the doctor..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAppointmentModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item" data-page="home">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="ai.html" class="nav-item" data-page="ai">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>AI</span>
+        </a>
+        <a href="meds.html" class="nav-item" data-page="meds">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
+            </svg>
+            <span>Meds</span>
+        </a>
+        <a href="mental.html" class="nav-item" data-page="mental">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
+            </svg>
+            <span>Wellness</span>
+        </a>
+        <a href="profile.html" class="nav-item active" data-page="profile">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const doctors = [
+            {
+                id: 1,
+                name: 'Dr. Sarah Johnson',
+                specialty: 'Cardiologist',
+                rating: 4.9,
+                reviews: 324,
+                experience: '15 years',
+                distance: '2.1 km',
+                hospital: 'City Medical Center',
+                fees: '$50',
+                available: 'morning',
+                emergency: true,
+                avatar: '👨‍⚕️'
+            },
+            {
+                id: 2,
+                name: 'Dr. Michael Chen',
+                specialty: 'Dermatologist',
+                rating: 4.7,
+                reviews: 298,
+                experience: '12 years',
+                distance: '1.8 km',
+                hospital: 'Central Hospital',
+                fees: '$45',
+                available: 'afternoon',
+                emergency: false,
+                avatar: '👨‍⚕️'
+            },
+            {
+                id: 3,
+                name: 'Dr. Emma Williams',
+                specialty: 'Neurologist',
+                rating: 4.8,
+                reviews: 412,
+                experience: '18 years',
+                distance: '3.2 km',
+                hospital: 'Advanced Care Hospital',
+                fees: '$60',
+                available: 'evening',
+                emergency: true,
+                avatar: '👩‍⚕️'
+            },
+            {
+                id: 4,
+                name: 'Dr. James Miller',
+                specialty: 'Physician',
+                rating: 4.6,
+                reviews: 185,
+                experience: '10 years',
+                distance: '2.5 km',
+                hospital: 'City Medical Center',
+                fees: '$40',
+                available: 'morning',
+                emergency: false,
+                avatar: '👨‍⚕️'
+            },
+            {
+                id: 5,
+                name: 'Dr. Lisa Anderson',
+                specialty: 'Surgeon',
+                rating: 4.9,
+                reviews: 156,
+                experience: '20 years',
+                distance: '4.1 km',
+                hospital: 'Advanced Care Hospital',
+                fees: '$80',
+                available: 'afternoon',
+                emergency: true,
+                avatar: '👩‍⚕️'
+            },
+            {
+                id: 6,
+                name: 'Dr. Robert Davis',
+                specialty: 'Pediatrician',
+                rating: 4.8,
+                reviews: 267,
+                experience: '14 years',
+                distance: '2.9 km',
+                hospital: 'Central Hospital',
+                fees: '$35',
+                available: 'morning',
+                emergency: false,
+                avatar: '👨‍⚕️'
+            }
+        ];
+
+        const hospitals = [
+            {
+                name: 'City Medical Center',
+                rating: 4.8,
+                distance: '2.3 km',
+                address: '123 Health Street, Downtown',
+                services: ['24/7', 'Emergency', 'Surgery'],
+                phone: '555-0123'
+            },
+            {
+                name: 'Central Hospital',
+                rating: 4.6,
+                distance: '3.1 km',
+                address: '456 Medical Avenue, Central',
+                services: ['ICU', 'Cardiology', 'Pediatrics'],
+                phone: '555-0124'
+            },
+            {
+                name: 'Advanced Care Hospital',
+                rating: 4.9,
+                distance: '4.5 km',
+                address: '789 Advanced Lane, North',
+                services: ['Research', 'Neurology', 'Oncology'],
+                phone: '555-0125'
+            }
+        ];
+
+        let appointments = JSON.parse(localStorage.getItem('medmind_appointments')) || [];
+        let selectedDoctorId = null;
+
+        function loadDoctors() {
+            renderEmergencyDoctors();
+            renderAllDoctors();
+            renderHospitals();
+            loadAppointments();
+        }
+
+        function renderEmergencyDoctors() {
+            const container = document.getElementById('emergencyDoctors');
+            const emergencyDocs = doctors.filter(d => d.emergency);
+            
+            container.innerHTML = emergencyDocs.map(doctor => `
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-avatar">${doctor.avatar}</div>
+                        <div class="doctor-info">
+                            <h3>${doctor.name}</h3>
+                            <p class="doctor-specialty">${doctor.specialty}</p>
+                            <div class="doctor-rating">
+                                <span class="stars">⭐ ${doctor.rating}</span>
+                                <span class="reviews">(${doctor.reviews} reviews)</span>
+                            </div>
+                        </div>
+                        <div class="emergency-badge">Available</div>
+                    </div>
+                    <div class="doctor-details">
+                        <div class="detail">
+                            <span class="label">Experience:</span>
+                            <span>${doctor.experience}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Hospital:</span>
+                            <span>${doctor.hospital}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Consultation Fee:</span>
+                            <span>${doctor.fees}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="openAppointmentModal(${doctor.id})">Book Now</button>
+                </div>
+            `).join('');
+        }
+
+        function renderAllDoctors() {
+            const container = document.getElementById('doctorsList');
+            
+            container.innerHTML = doctors.map(doctor => `
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-avatar">${doctor.avatar}</div>
+                        <div class="doctor-info">
+                            <h3>${doctor.name}</h3>
+                            <p class="doctor-specialty">${doctor.specialty}</p>
+                            <div class="doctor-rating">
+                                <span class="stars">⭐ ${doctor.rating}</span>
+                                <span class="reviews">(${doctor.reviews} reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-details">
+                        <div class="detail">
+                            <span class="label">Distance:</span>
+                            <span>${doctor.distance}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Hospital:</span>
+                            <span>${doctor.hospital}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Fee:</span>
+                            <span>${doctor.fees}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="openAppointmentModal(${doctor.id})">Book Appointment</button>
+                </div>
+            `).join('');
+        }
+
+        function renderHospitals() {
+            const container = document.getElementById('hospitalsList');
+            
+            container.innerHTML = hospitals.map(hospital => `
+                <div class="hospital-card">
+                    <div class="hospital-header">
+                        <div>
+                            <h3>${hospital.name}</h3>
+                            <p class="hospital-distance">${hospital.distance} away</p>
+                        </div>
+                        <div class="hospital-rating">⭐ ${hospital.rating}</div>
+                    </div>
+                    <p class="hospital-address">${hospital.address}</p>
+                    <div class="hospital-services">
+                        ${hospital.services.map(s => `<span class="service-badge">${s}</span>`).join('')}
+                    </div>
+                    <div class="hospital-actions">
+                        <a href="tel:${hospital.phone}" class="btn btn-secondary btn-small">Call: ${hospital.phone}</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAppointmentModal(doctorId) {
+            selectedDoctorId = doctorId;
+            const doctor = doctors.find(d => d.id === doctorId);
+            document.getElementById('appointmentDoctor').textContent = doctor.name + ' - ' + doctor.specialty;
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('appointmentModal').classList.add('active');
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.remove('active');
+        }
+
+        function saveAppointment(e) {
+            e.preventDefault();
+            
+            const doctor = doctors.find(d => d.id === selectedDoctorId);
+            const appointment = {
+                id: Date.now(),
+                doctorId: selectedDoctorId,
+                doctorName: doctor.name,
+                specialty: doctor.specialty,
+                hospital: doctor.hospital,
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                reason: document.getElementById('appointmentReason').value,
+                notes: document.getElementById('appointmentNotes').value,
+                status: 'confirmed',
+                fee: doctor.fees
+            };
+
+            appointments.push(appointment);
+            localStorage.setItem('medmind_appointments', JSON.stringify(appointments));
+            loadAppointments();
+            closeAppointmentModal();
+            showNotification('Appointment booked successfully!', 'success');
+        }
+
+        function loadAppointments() {
+            const container = document.getElementById('appointmentsList');
+            if (appointments.length === 0) {
+                container.innerHTML = '<p class="empty-state">No appointments booked yet</p>';
+                return;
+            }
+
+            container.innerHTML = appointments.map(apt => `
+                <div class="appointment-card">
+                    <div class="appointment-header">
+                        <div>
+                            <h3>${apt.doctorName}</h3>
+                            <p class="appointment-specialty">${apt.specialty}</p>
+                        </div>
+                        <span class="appointment-status">${apt.status}</span>
+                    </div>
+                    <div class="appointment-details">
+                        <div class="detail">
+                            <span class="label">Date & Time:</span>
+                            <span>${apt.date} at ${apt.time}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Hospital:</span>
+                            <span>${apt.hospital}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Reason:</span>
+                            <span>${apt.reason}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Fee:</span>
+                            <span>${apt.fee}</span>
+                        </div>
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="btn btn-secondary btn-small" onclick="rescheduleAppointment(${apt.id})">Reschedule</button>
+                        <button class="btn btn-danger btn-small" onclick="cancelAppointment(${apt.id})">Cancel</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterDoctors() {
+            const search = document.getElementById('doctorSearch').value.toLowerCase();
+            const specialty = document.getElementById('specialtyFilter').value;
+            const availability = document.getElementById('availabilityFilter').value;
+            const rating = parseFloat(document.getElementById('ratingFilter').value) || 0;
+
+            const filtered = doctors.filter(doctor => {
+                const matchesSearch = doctor.name.toLowerCase().includes(search) || doctor.specialty.toLowerCase().includes(search);
+                const matchesSpecialty = !specialty || doctor.specialty === specialty;
+                const matchesAvailability = !availability || doctor.available === availability;
+                const matchesRating = doctor.rating >= rating;
+
+                return matchesSearch && matchesSpecialty && matchesAvailability && matchesRating;
+            });
+
+            document.getElementById('doctorsList').innerHTML = filtered.map(doctor => `
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <div class="doctor-avatar">${doctor.avatar}</div>
+                        <div class="doctor-info">
+                            <h3>${doctor.name}</h3>
+                            <p class="doctor-specialty">${doctor.specialty}</p>
+                            <div class="doctor-rating">
+                                <span class="stars">⭐ ${doctor.rating}</span>
+                                <span class="reviews">(${doctor.reviews} reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doctor-details">
+                        <div class="detail">
+                            <span class="label">Distance:</span>
+                            <span>${doctor.distance}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Hospital:</span>
+                            <span>${doctor.hospital}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Fee:</span>
+                            <span>${doctor.fees}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="openAppointmentModal(${doctor.id})">Book Appointment</button>
+                </div>
+            `).join('');
+        }
+
+        function cancelAppointment(aptId) {
+            if (confirm('Are you sure you want to cancel this appointment?')) {
+                appointments = appointments.filter(a => a.id !== aptId);
+                localStorage.setItem('medmind_appointments', JSON.stringify(appointments));
+                loadAppointments();
+                showNotification('Appointment cancelled', 'success');
+            }
+        }
+
+        function rescheduleAppointment(aptId) {
+            const apt = appointments.find(a => a.id === aptId);
+            selectedDoctorId = apt.doctorId;
+            openAppointmentModal(apt.doctorId);
+        }
+
+        function callEmergency() {
+            showNotification('Emergency services will be contacted. Stay calm and wait for assistance.', 'error');
+        }
+
+        document.getElementById('appointmentModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('appointmentModal')) {
+                closeAppointmentModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadDoctors);
+    </script>
+</body>
+</html>

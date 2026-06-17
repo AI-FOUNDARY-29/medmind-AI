@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MedMind AI - Advanced Healthcare Intelligence Platform">
+    <title>MedMind AI - Your Health, Intelligently</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+
+            <div class="splash-logo">
+                <div class="logo-gradient">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10"
+                              fill="url(#logoGradient)"
+                              stroke="white"
+                              stroke-width="2"/>
+                        <circle cx="50" cy="40" r="8" fill="white"/>
+
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1"/>
+                            </linearGradient>
+                        </defs>
+
+                    </svg>
+                </div>
+            </div>
+
+            <h1 class="splash-title">MedMind AI</h1>
+
+            <p class="splash-subtitle">
+                Your Health, Intelligently
+            </p>
+
+            <div class="splash-loader">
+                <div class="loader-ring"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener("load", function () {
+
+            const isLoggedIn = localStorage.getItem("medmind_user");
+
+            setTimeout(() => {
+
+                const splashScreen = document.getElementById("splashScreen");
+
+                splashScreen.style.opacity = "0";
+                splashScreen.style.pointerEvents = "none";
+
+                setTimeout(() => {
+
+                    if (isLoggedIn) {
+                        window.location.href = "home.html";
+                    } else {
+                        window.location.href = "login.html";
+                    }
+
+                }, 300);
+
+            }, 2000);
+
+        });
+    </script>
+
+</body>
+</html>
