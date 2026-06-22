@@ -140,39 +140,6 @@
                         <span>Start Exercise</span>
                     </button>
                 </div>
-
-                <div class="meditation-card">
-                    <h3>Guided Meditation</h3>
-                    <p class="exercise-desc">10-minute relaxation meditation</p>
-                    <button class="btn btn-primary" onclick="startMeditation()">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M8 5v14l11-7z"/>
-                        </svg>
-                        <span>Start Meditation</span>
-                    </button>
-                </div>
-
-                <div class="meditation-card">
-                    <h3>Anxiety Relief</h3>
-                    <p class="exercise-desc">Quick 5-minute anxiety relief routine</p>
-                    <button class="btn btn-primary" onclick="startAnxietyRelief()">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M8 5v14l11-7z"/>
-                        </svg>
-                        <span>Start Session</span>
-                    </button>
-                </div>
-
-                <div class="meditation-card">
-                    <h3>Sleep Story</h3>
-                    <p class="exercise-desc">Relaxing sleep story to help you drift off</p>
-                    <button class="btn btn-primary" onclick="startSleepStory()">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M8 5v14l11-7z"/>
-                        </svg>
-                        <span>Start Story</span>
-                    </button>
-                </div>
             </div>
         </section>
 
@@ -421,7 +388,6 @@
     <script>
         let journalEntries = JSON.parse(localStorage.getItem('medmind_journal')) || [];
 
-        // Mood tracking
         document.getElementById('moodSelector').querySelectorAll('.mood-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
@@ -486,24 +452,6 @@
             }
 
             breathe();
-        }
-
-        function startMeditation() {
-            showNotification('Starting 10-minute guided meditation...', 'info');
-            setTimeout(() => {
-                showNotification('Meditation completed! Great job taking care of yourself.', 'success');
-            }, 10000);
-        }
-
-        function startAnxietyRelief() {
-            showNotification('Starting 5-minute anxiety relief session...', 'info');
-            setTimeout(() => {
-                showNotification('Session complete! You\'re doing great.', 'success');
-            }, 5000);
-        }
-
-        function startSleepStory() {
-            showNotification('Starting sleep story... Sweet dreams!', 'info');
         }
 
         function closeBreathingModal() {
