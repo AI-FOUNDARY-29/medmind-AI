@@ -5,539 +5,504 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - MedMind AI</title>
     <link rel="stylesheet" href="style.css">
-    
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="additions.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="additions.css">
+    <style>
+        * { box-sizing: border-box; }
+
+        .profile-hero {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 40px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 60%);
+            animation: pulse-bg 4s ease-in-out infinite;
+        }
+        @keyframes pulse-bg { 0%,100%{transform:scale(1);} 50%{transform:scale(1.1);} }
+
+        .avatar-ring {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #06b6d4, #8b5cf6);
+            padding: 3px;
+            margin: 0 auto 16px;
+            position: relative;
+            z-index: 1;
+            animation: spin-ring 6s linear infinite;
+        }
+        @keyframes spin-ring { 0%{filter:hue-rotate(0deg);} 100%{filter:hue-rotate(360deg);} }
+        .avatar-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: #1a1a2e;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px;
+        }
+        .hero-name {
+            font-size: 24px; font-weight: 800; color: white;
+            position: relative; z-index: 1;
+        }
+        .hero-email {
+            color: #10b981; font-size: 14px; margin-top: 4px;
+            position: relative; z-index: 1;
+        }
+        .health-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(16,185,129,0.2);
+            border: 1px solid #10b981;
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-top: 16px;
+            position: relative; z-index: 1;
+        }
+        .health-badge .score { font-size: 22px; font-weight: 800; color: #10b981; }
+        .health-badge .label { color: #9ca3af; font-size: 12px; }
+
+        .stats-strip {
+            display: flex;
+            background: #111827;
+            border-bottom: 1px solid #1f2937;
+        }
+        .strip-item {
+            flex: 1; text-align: center; padding: 16px 8px;
+            border-right: 1px solid #1f2937;
+        }
+        .strip-item:last-child { border-right: none; }
+        .strip-val { font-size: 16px; font-weight: 700; color: #10b981; }
+        .strip-lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
+
+        .cards-container { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+
+        .info-card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+            transition: transform 0.2s;
+        }
+        .info-card:active { transform: scale(0.98); }
+
+        .card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid #1f2937;
+        }
+        .card-header-left { display: flex; align-items: center; gap: 12px; }
+        .card-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+        .icon-personal { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .icon-medical { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .icon-insurance { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .icon-emergency { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+        .card-title { font-size: 16px; font-weight: 700; color: white; }
+        .card-subtitle { font-size: 12px; color: #6b7280; }
+
+        .edit-pill {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: white; border: none; border-radius: 50px;
+            padding: 6px 16px; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: opacity 0.2s;
+        }
+        .edit-pill:active { opacity: 0.8; }
+
+        .card-body { padding: 16px 20px; }
+
+        .info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #6b7280; font-size: 13px; }
+        .info-value { color: white; font-size: 14px; font-weight: 500; text-align: right; max-width: 60%; }
+
+        .tag-value {
+            display: inline-block;
+            background: rgba(16,185,129,0.15);
+            color: #10b981;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 13px;
+            margin: 2px;
+        }
+
+        /* Modal */
+        .edit-modal {
+            display: none; position: fixed; top:0; left:0;
+            width:100%; height:100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000; overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+        .edit-modal.active { display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; }
+        .edit-box {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 24px;
+            padding: 28px 24px;
+            width: 100%; max-width: 420px;
+            border: 1px solid #2d2d4e;
+        }
+        .modal-title {
+            font-size: 20px; font-weight: 800; color: white;
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .edit-field { margin-bottom: 16px; }
+        .edit-field label { display: block; color: #9ca3af; font-size: 13px; margin-bottom: 6px; font-weight: 500; }
+        .edit-field input, .edit-field select {
+            width: 100%; padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2d2d4e;
+            border-radius: 12px; color: white; font-size: 15px;
+            transition: border-color 0.2s;
+        }
+        .edit-field input:focus, .edit-field select:focus {
+            outline: none; border-color: #10b981;
+            background: rgba(16,185,129,0.05);
+        }
+        .edit-field select option { background: #1a1a2e; }
+        .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+        .btn-save {
+            flex: 2; padding: 14px;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+        }
+        .btn-cancel {
+            flex: 1; padding: 14px;
+            background: rgba(255,255,255,0.08);
+            color: #9ca3af; border: none; border-radius: 12px;
+            font-size: 16px; cursor: pointer;
+        }
+
+        .signout-btn {
+            width: 100%; padding: 16px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #ef4444; border-radius: 16px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            margin: 0 16px 100px; width: calc(100% - 32px);
+            transition: background 0.2s;
+        }
+        .signout-btn:active { background: rgba(239,68,68,0.2); }
+
+        .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-brand">
                 <div class="nav-logo">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#logoGradient9)" stroke="white" stroke-width="2"/>
+                        <path d="M50 10 Q70 20 70 40 Q70 60 50 70 Q30 60 30 40 Q30 20 50 10" fill="url(#lg9)" stroke="white" stroke-width="2"/>
                         <circle cx="50" cy="40" r="8" fill="white"/>
-                        <defs>
-                            <linearGradient id="logoGradient9" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
+                        <defs><linearGradient id="lg9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#10b981"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient></defs>
                     </svg>
                 </div>
                 <span>MedMind AI</span>
             </div>
-            
             <div class="nav-menu">
-                <a href="home.html" class="nav-link" data-page="home">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
-                    <span>Home</span>
-                </a>
-                <a href="ai.html" class="nav-link" data-page="ai">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span>AI Chat</span>
-                </a>
-                <a href="meds.html" class="nav-link" data-page="meds">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
-                    </svg>
-                    <span>Medicines</span>
-                </a>
-                <a href="mental.html" class="nav-link" data-page="mental">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
-                    </svg>
-                    <span>Wellness</span>
-                </a>
-                <a href="doctor.html" class="nav-link" data-page="doctor">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M11.99 5.52C7.957 5.52 4.73 8.75 4.73 12.78s3.23 7.26 7.27 7.26 7.27-3.23 7.27-7.26-3.23-7.26-7.28-7.26zM13 13h-2v2h-2v-2H7v-2h2v-2h2v2h2v2z"/>
-                    </svg>
-                    <span>Doctors</span>
-                </a>
-                <a href="profile.html" class="nav-link active" data-page="profile">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <span>Profile</span>
-                </a>
+                <a href="home.html" class="nav-link"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+                <a href="ai.html" class="nav-link"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>AI Chat</span></a>
+                <a href="meds.html" class="nav-link"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/></svg><span>Medicines</span></a>
+                <a href="mental.html" class="nav-link"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/></svg><span>Wellness</span></a>
+                <a href="profile.html" class="nav-link active"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></a>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="page-header">
-        <div class="header-content">
-            <h1>My Profile</h1>
-            <p>Manage your health information</p>
+    <!-- Hero Section -->
+    <div class="profile-hero">
+        <div class="avatar-ring">
+            <div class="avatar-inner">👤</div>
         </div>
-    </header>
-
-    <main class="profile-container">
-        <!-- Profile Section -->
-        <section class="profile-section">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="profile-avatar" id="profileAvatar"></div>
-                    <div class="profile-info">
-                        <h1 id="profileName">Alex Johnson</h1>
-                        <p class="profile-email" id="profileEmail">alex@example.com</p>
-                        <button class="btn btn-small btn-secondary" onclick="editProfile()">Edit Profile</button>
-                    </div>
-                </div>
-
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Account Status</span>
-                        <span class="stat-value active">Active</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Member Since</span>
-                        <span class="stat-value" id="memberSince">Jan 2024</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Health Score</span>
-                        <span class="stat-value">78/100</span>
-                    </div>
-                </div>
+        <div class="hero-name" id="profileName">Alex Johnson</div>
+        <div class="hero-email" id="profileEmail">alex@example.com</div>
+        <div class="health-badge">
+            <span class="score">78</span>
+            <div>
+                <div style="color:white;font-size:13px;font-weight:700;">Health Score</div>
+                <div class="label">Very Good ✨</div>
             </div>
-        </section>
-
-        <!-- Personal Information -->
-        <section class="info-section">
-            <h2 class="section-title">Personal Information</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <label>Date of Birth</label>
-                    <p id="userDOB">June 15, 1995</p>
-                </div>
-                <div class="info-item">
-                    <label>Gender</label>
-                    <p>Not Specified</p>
-                </div>
-                <div class="info-item">
-                    <label>Height</label>
-                    <p id="userHeight">175 cm</p>
-                </div>
-                <div class="info-item">
-                    <label>Weight</label>
-                    <p id="userWeight">72 kg</p>
-                </div>
-                <div class="info-item">
-                    <label>Blood Group</label>
-                    <p id="userBloodGroup">O+</p>
-                </div>
-                <div class="info-item">
-                    <label>Phone Number</label>
-                    <p>+1 (555) 123-4567</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Medical Information -->
-        <section class="medical-section">
-            <div class="section-header">
-                <h2 class="section-title">Medical Information</h2>
-                <button class="btn btn-small btn-primary" onclick="openMedicalModal()">Update</button>
-            </div>
-
-            <div class="medical-grid">
-                <div class="medical-card">
-                    <h3>Allergies</h3>
-                    <p id="userAllergies">Penicillin, Shellfish</p>
-                </div>
-                <div class="medical-card">
-                    <h3>Chronic Conditions</h3>
-                    <p id="userConditions">High Blood Pressure</p>
-                </div>
-                <div class="medical-card">
-                    <h3>Current Medications</h3>
-                    <p id="userMeds">Lisinopril 10mg, Aspirin 500mg</p>
-                </div>
-                <div class="medical-card">
-                    <h3>Past Surgeries</h3>
-                    <p id="userSurgeries">Appendectomy (2018)</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Insurance Information -->
-        <section class="insurance-section">
-            <div class="section-header">
-                <h2 class="section-title">Insurance Information</h2>
-                <button class="btn btn-small btn-primary" onclick="openInsuranceModal()">Update</button>
-            </div>
-
-            <div class="insurance-card">
-                <div class="insurance-details">
-                    <div class="detail">
-                        <span class="label">Provider</span>
-                        <span class="value" id="insuranceProvider">BlueCross BlueShield</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Policy Number</span>
-                        <span class="value" id="insurancePolicyNum">BC-BS-1234567</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Group Number</span>
-                        <span class="value" id="insuranceGroupNum">GROUP-2024</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Expiration Date</span>
-                        <span class="value" id="insuranceExpiry">Dec 31, 2025</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Emergency Contact -->
-        <section class="emergency-section">
-            <div class="section-header">
-                <h2 class="section-title">Emergency Contact</h2>
-                <button class="btn btn-small btn-primary" onclick="openEmergencyModal()">Update</button>
-            </div>
-
-            <div class="emergency-card">
-                <div class="emergency-details">
-                    <div class="detail">
-                        <span class="label">Name</span>
-                        <span class="value" id="emergencyName">Sarah Johnson</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Relationship</span>
-                        <span class="value" id="emergencyRelation">Sister</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Phone</span>
-                        <span class="value" id="emergencyPhone">+1 (555) 987-6543</span>
-                    </div>
-                    <div class="detail">
-                        <span class="label">Email</span>
-                        <span class="value" id="emergencyEmail">sarah@example.com</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Health Documents -->
-        <section class="documents-section">
-            <div class="section-header">
-                <h2 class="section-title">Health Documents</h2>
-                <button class="btn btn-small btn-primary" onclick="openDocumentModal()">Upload</button>
-            </div>
-
-            <div class="documents-list" id="documentsList">
-                <div class="document-item">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-8-6z"/>
-                    </svg>
-                    <div class="document-info">
-                        <h4>Blood Test Report - 2024</h4>
-                        <p>Uploaded on Jan 15, 2024</p>
-                    </div>
-                    <button class="action-btn" title="Download">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="document-item">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-8-6z"/>
-                    </svg>
-                    <div class="document-info">
-                        <h4>Medical Imaging - Chest X-Ray</h4>
-                        <p>Uploaded on Dec 10, 2023</p>
-                    </div>
-                    <button class="action-btn" title="Download">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="document-item">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-8-6z"/>
-                    </svg>
-                    <div class="document-info">
-                        <h4>Prescription - January 2024</h4>
-                        <p>Uploaded on Jan 5, 2024</p>
-                    </div>
-                    <button class="action-btn" title="Download">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Settings -->
-        <section class="settings-section">
-            <h2 class="section-title">Settings</h2>
-            
-            <div class="settings-list">
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Dark Mode</h4>
-                        <p>Enable dark theme for easier night browsing</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Notifications</h4>
-                        <p>Receive reminders for medicines and appointments</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked onchange="updateNotifications()">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Health Data Sharing</h4>
-                        <p>Allow doctors to access your health records</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked onchange="updateDataSharing()">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Sync Health Data</h4>
-                        <p>Sync data with wearable devices</p>
-                    </div>
-                    <button class="btn btn-secondary btn-small" onclick="syncWearables()">Sync Now</button>
-                </div>
-
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Change Password</h4>
-                        <p>Update your account password</p>
-                    </div>
-                    <button class="btn btn-secondary btn-small" onclick="openPasswordModal()">Change</button>
-                </div>
-
-                <div class="settings-item">
-                    <div class="setting-info">
-                        <h4>Two-Factor Authentication</h4>
-                        <p>Add extra security to your account</p>
-                    </div>
-                    <button class="btn btn-secondary btn-small" onclick="setupTwoFactor()">Enable</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Danger Zone -->
-        <section class="danger-section">
-            <h2 class="section-title">Account</h2>
-            
-            <div class="danger-list">
-                <div class="danger-item">
-                    <div class="danger-info">
-                        <h4>Sign Out</h4>
-                        <p>Sign out from your current session</p>
-                    </div>
-                    <button class="btn btn-secondary btn-small" onclick="logout()">Sign Out</button>
-                </div>
-
-                <div class="danger-item">
-                    <div class="danger-info">
-                        <h4>Delete Account</h4>
-                        <p>Permanently delete your account and all data</p>
-                    </div>
-                    <button class="btn btn-danger btn-small" onclick="deleteAccount()">Delete Account</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Edit Profile Modal -->
-    <div class="modal" id="editProfileModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Profile</h2>
-                <button class="modal-close" onclick="closeModal('editProfileModal')">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <form id="editProfileForm" onsubmit="saveProfileEdit(event)">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editName">Full Name</label>
-                        <input type="text" id="editName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" id="editEmail" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editHeight">Height (cm)</label>
-                        <input type="number" id="editHeight">
-                    </div>
-                    <div class="form-group">
-                        <label for="editWeight">Weight (kg)</label>
-                        <input type="number" id="editWeight">
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('editProfileModal')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </form>
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
+    <!-- Stats Strip -->
+    <div class="stats-strip">
+        <div class="strip-item">
+            <div class="strip-val">Active</div>
+            <div class="strip-lbl">Status</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-val">Jan 2024</div>
+            <div class="strip-lbl">Member Since</div>
+        </div>
+        <div class="strip-item">
+            <div class="strip-val">O+</div>
+            <div class="strip-lbl">Blood Group</div>
+        </div>
+    </div>
+
+    <main>
+    <div class="cards-container">
+
+        <!-- Personal Info Card -->
+        <div class="info-card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div class="card-icon icon-personal">🧬</div>
+                    <div>
+                        <div class="card-title">Personal Info</div>
+                        <div class="card-subtitle">Your basic details</div>
+                    </div>
+                </div>
+                <button class="edit-pill" onclick="openModal('personalModal')">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+                <div class="info-row"><span class="info-label">📅 Date of Birth</span><span class="info-value" id="dispDob">June 15, 1995</span></div>
+                <div class="info-row"><span class="info-label">⚧ Gender</span><span class="info-value" id="dispGender">Male</span></div>
+                <div class="info-row"><span class="info-label">📏 Height</span><span class="info-value" id="dispHeight">175 cm</span></div>
+                <div class="info-row"><span class="info-label">⚖️ Weight</span><span class="info-value" id="dispWeight">72 kg</span></div>
+                <div class="info-row"><span class="info-label">🩸 Blood Group</span><span class="info-value" id="dispBlood">O+</span></div>
+                <div class="info-row"><span class="info-label">📱 Phone</span><span class="info-value" id="dispPhone">+1 (555) 123-4567</span></div>
+            </div>
+        </div>
+
+        <!-- Medical Info Card -->
+        <div class="info-card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div class="card-icon icon-medical">🏥</div>
+                    <div>
+                        <div class="card-title">Medical Info</div>
+                        <div class="card-subtitle">Health conditions & meds</div>
+                    </div>
+                </div>
+                <button class="edit-pill" onclick="openModal('medicalModal')">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+                <div class="info-row"><span class="info-label">⚠️ Allergies</span><span class="info-value" id="dispAllergies">Penicillin, Shellfish</span></div>
+                <div class="info-row"><span class="info-label">💊 Conditions</span><span class="info-value" id="dispConditions">High Blood Pressure</span></div>
+                <div class="info-row"><span class="info-label">💉 Medications</span><span class="info-value" id="dispMeds">Lisinopril 10mg, Aspirin 500mg</span></div>
+                <div class="info-row"><span class="info-label">🔬 Past Surgeries</span><span class="info-value" id="dispSurgeries">Appendectomy (2018)</span></div>
+            </div>
+        </div>
+
+        <!-- Insurance Card -->
+        <div class="info-card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div class="card-icon icon-insurance">🛡️</div>
+                    <div>
+                        <div class="card-title">Insurance</div>
+                        <div class="card-subtitle">Coverage details</div>
+                    </div>
+                </div>
+                <button class="edit-pill" onclick="openModal('insuranceModal')">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+                <div class="info-row"><span class="info-label">🏢 Provider</span><span class="info-value" id="dispProvider">BlueCross BlueShield</span></div>
+                <div class="info-row"><span class="info-label">📋 Policy No.</span><span class="info-value" id="dispPolicy">BC-BS-1234567</span></div>
+                <div class="info-row"><span class="info-label">👥 Group No.</span><span class="info-value" id="dispGroup">GROUP-2024</span></div>
+                <div class="info-row"><span class="info-label">📆 Expires</span><span class="info-value" id="dispExpiry">Dec 31, 2025</span></div>
+            </div>
+        </div>
+
+        <!-- Emergency Contact Card -->
+        <div class="info-card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <div class="card-icon icon-emergency">🆘</div>
+                    <div>
+                        <div class="card-title">Emergency Contact</div>
+                        <div class="card-subtitle">Who to call in crisis</div>
+                    </div>
+                </div>
+                <button class="edit-pill" onclick="openModal('emergencyModal')">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+                <div class="info-row"><span class="info-label">👤 Name</span><span class="info-value" id="dispEName">Sarah Johnson</span></div>
+                <div class="info-row"><span class="info-label">❤️ Relation</span><span class="info-value" id="dispERelation">Sister</span></div>
+                <div class="info-row"><span class="info-label">📞 Phone</span><span class="info-value" id="dispEPhone">+1 (555) 987-6543</span></div>
+                <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value" id="dispEEmail">sarah@example.com</span></div>
+            </div>
+        </div>
+
+        <button class="signout-btn" onclick="logout()">🚪 Sign Out</button>
+
+    </div>
+    </main>
+
+    <!-- Personal Modal -->
+    <div class="edit-modal" id="personalModal">
+        <div class="edit-box">
+            <div class="modal-title">🧬 Personal Info</div>
+            <div class="edit-field"><label>Date of Birth</label><input type="text" id="inDob" placeholder="e.g. June 15, 1995"></div>
+            <div class="edit-field"><label>Gender</label><select id="inGender"><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+            <div class="edit-field"><label>Height (cm)</label><input type="number" id="inHeight" placeholder="175"></div>
+            <div class="edit-field"><label>Weight (kg)</label><input type="number" id="inWeight" placeholder="72"></div>
+            <div class="edit-field"><label>Blood Group</label><select id="inBlood"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+            <div class="edit-field"><label>Phone Number</label><input type="text" id="inPhone" placeholder="+1 (555) 123-4567"></div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('personalModal')">Cancel</button>
+                <button class="btn-save" onclick="savePersonal()">💾 Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical Modal -->
+    <div class="edit-modal" id="medicalModal">
+        <div class="edit-box">
+            <div class="modal-title">🏥 Medical Info</div>
+            <div class="edit-field"><label>Allergies</label><input type="text" id="inAllergies" placeholder="e.g. Penicillin, Shellfish"></div>
+            <div class="edit-field"><label>Chronic Conditions</label><input type="text" id="inConditions" placeholder="e.g. High Blood Pressure"></div>
+            <div class="edit-field"><label>Current Medications</label><input type="text" id="inMeds" placeholder="e.g. Lisinopril 10mg"></div>
+            <div class="edit-field"><label>Past Surgeries</label><input type="text" id="inSurgeries" placeholder="e.g. Appendectomy (2018)"></div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('medicalModal')">Cancel</button>
+                <button class="btn-save" onclick="saveMedical()">💾 Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insurance Modal -->
+    <div class="edit-modal" id="insuranceModal">
+        <div class="edit-box">
+            <div class="modal-title">🛡️ Insurance Info</div>
+            <div class="edit-field"><label>Provider</label><input type="text" id="inProvider" placeholder="e.g. BlueCross BlueShield"></div>
+            <div class="edit-field"><label>Policy Number</label><input type="text" id="inPolicy" placeholder="e.g. BC-BS-1234567"></div>
+            <div class="edit-field"><label>Group Number</label><input type="text" id="inGroup" placeholder="e.g. GROUP-2024"></div>
+            <div class="edit-field"><label>Expiration Date</label><input type="text" id="inExpiry" placeholder="e.g. Dec 31, 2025"></div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('insuranceModal')">Cancel</button>
+                <button class="btn-save" onclick="saveInsurance()">💾 Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Modal -->
+    <div class="edit-modal" id="emergencyModal">
+        <div class="edit-box">
+            <div class="modal-title">🆘 Emergency Contact</div>
+            <div class="edit-field"><label>Name</label><input type="text" id="inEName" placeholder="e.g. Sarah Johnson"></div>
+            <div class="edit-field"><label>Relationship</label><input type="text" id="inERelation" placeholder="e.g. Sister"></div>
+            <div class="edit-field"><label>Phone</label><input type="text" id="inEPhone" placeholder="e.g. +1 (555) 987-6543"></div>
+            <div class="edit-field"><label>Email</label><input type="email" id="inEEmail" placeholder="e.g. sarah@example.com"></div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal('emergencyModal')">Cancel</button>
+                <button class="btn-save" onclick="saveEmergency()">💾 Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
-        <a href="home.html" class="nav-item" data-page="home">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-            <span>Home</span>
-        </a>
-        <a href="ai.html" class="nav-item" data-page="ai">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg>
-            <span>AI</span>
-        </a>
-        <a href="meds.html" class="nav-item" data-page="meds">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/>
-            </svg>
-            <span>Meds</span>
-        </a>
-        <a href="mental.html" class="nav-item" data-page="mental">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/>
-            </svg>
-            <span>Wellness</span>
-        </a>
-        <a href="profile.html" class="nav-item active" data-page="profile">
-            <svg viewBox="0 0 24 24" width="24" height="24">
-                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
-            <span>Profile</span>
-        </a>
+        <a href="home.html" class="nav-item"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+        <a href="ai.html" class="nav-item"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>AI</span></a>
+        <a href="meds.html" class="nav-item"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h-3v3h-2v-3H6v-2h3v-3h2v3h3v2z"/></svg><span>Meds</span></a>
+        <a href="mental.html" class="nav-item"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM12 12c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm6 6H6v-1.5c0-2 4-3.1 6-3.1s6 1.1 6 3.1V18z"/></svg><span>Wellness</span></a>
+        <a href="profile.html" class="nav-item active"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span></a>
     </div>
 
     <script src="script.js"></script>
     <script>
-        function loadProfile() {
-            const user = JSON.parse(localStorage.getItem('medmind_user'));
-            if (user) {
-                document.getElementById('profileName').textContent = user.name;
-                document.getElementById('profileEmail').textContent = user.email;
-                document.getElementById('userDOB').textContent = user.dob || 'Not Set';
-                document.getElementById('userHeight').textContent = user.height || 'Not Set';
-                document.getElementById('userWeight').textContent = user.weight || 'Not Set';
-                document.getElementById('userBloodGroup').textContent = user.bloodGroup || 'Not Set';
-                
-                document.getElementById('profileAvatar').innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
-                
-                // Check dark mode preference
-                if (localStorage.getItem('darkMode') === 'true') {
-                    document.getElementById('darkModeToggle').checked = true;
-                }
+        function loadAll() {
+            const p = JSON.parse(localStorage.getItem('profile_personal') || '{}');
+            const m = JSON.parse(localStorage.getItem('profile_medical') || '{}');
+            const i = JSON.parse(localStorage.getItem('profile_insurance') || '{}');
+            const e = JSON.parse(localStorage.getItem('profile_emergency') || '{}');
+
+            if (p.dob) document.getElementById('dispDob').textContent = p.dob;
+            if (p.gender) document.getElementById('dispGender').textContent = p.gender;
+            if (p.height) document.getElementById('dispHeight').textContent = p.height + ' cm';
+            if (p.weight) document.getElementById('dispWeight').textContent = p.weight + ' kg';
+            if (p.blood) { document.getElementById('dispBlood').textContent = p.blood; document.querySelector('.strip-item:nth-child(3) .strip-val').textContent = p.blood; }
+            if (p.phone) document.getElementById('dispPhone').textContent = p.phone;
+
+            if (m.allergies) document.getElementById('dispAllergies').textContent = m.allergies;
+            if (m.conditions) document.getElementById('dispConditions').textContent = m.conditions;
+            if (m.meds) document.getElementById('dispMeds').textContent = m.meds;
+            if (m.surgeries) document.getElementById('dispSurgeries').textContent = m.surgeries;
+
+            if (i.provider) document.getElementById('dispProvider').textContent = i.provider;
+            if (i.policy) document.getElementById('dispPolicy').textContent = i.policy;
+            if (i.group) document.getElementById('dispGroup').textContent = i.group;
+            if (i.expiry) document.getElementById('dispExpiry').textContent = i.expiry;
+
+            if (e.name) document.getElementById('dispEName').textContent = e.name;
+            if (e.relation) document.getElementById('dispERelation').textContent = e.relation;
+            if (e.phone) document.getElementById('dispEPhone').textContent = e.phone;
+            if (e.email) document.getElementById('dispEEmail').textContent = e.email;
+        }
+
+        function openModal(id) {
+            if (id === 'personalModal') {
+                document.getElementById('inDob').value = document.getElementById('dispDob').textContent;
+                document.getElementById('inGender').value = document.getElementById('dispGender').textContent;
+                document.getElementById('inHeight').value = document.getElementById('dispHeight').textContent.replace(' cm','');
+                document.getElementById('inWeight').value = document.getElementById('dispWeight').textContent.replace(' kg','');
+                document.getElementById('inBlood').value = document.getElementById('dispBlood').textContent;
+                document.getElementById('inPhone').value = document.getElementById('dispPhone').textContent;
+            } else if (id === 'medicalModal') {
+                document.getElementById('inAllergies').value = document.getElementById('dispAllergies').textContent;
+                document.getElementById('inConditions').value = document.getElementById('dispConditions').textContent;
+                document.getElementById('inMeds').value = document.getElementById('dispMeds').textContent;
+                document.getElementById('inSurgeries').value = document.getElementById('dispSurgeries').textContent;
+            } else if (id === 'insuranceModal') {
+                document.getElementById('inProvider').value = document.getElementById('dispProvider').textContent;
+                document.getElementById('inPolicy').value = document.getElementById('dispPolicy').textContent;
+                document.getElementById('inGroup').value = document.getElementById('dispGroup').textContent;
+                document.getElementById('inExpiry').value = document.getElementById('dispExpiry').textContent;
+            } else if (id === 'emergencyModal') {
+                document.getElementById('inEName').value = document.getElementById('dispEName').textContent;
+                document.getElementById('inERelation').value = document.getElementById('dispERelation').textContent;
+                document.getElementById('inEPhone').value = document.getElementById('dispEPhone').textContent;
+                document.getElementById('inEEmail').value = document.getElementById('dispEEmail').textContent;
             }
+            document.getElementById(id).classList.add('active');
         }
 
-        function editProfile() {
-            const user = JSON.parse(localStorage.getItem('medmind_user'));
-            document.getElementById('editName').value = user.name;
-            document.getElementById('editEmail').value = user.email;
-            document.getElementById('editHeight').value = user.height?.replace(' cm', '') || '';
-            document.getElementById('editWeight').value = user.weight?.replace(' kg', '') || '';
-            
-            document.getElementById('editProfileModal').classList.add('active');
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function savePersonal() {
+            const data = { dob: document.getElementById('inDob').value, gender: document.getElementById('inGender').value, height: document.getElementById('inHeight').value, weight: document.getElementById('inWeight').value, blood: document.getElementById('inBlood').value, phone: document.getElementById('inPhone').value };
+            localStorage.setItem('profile_personal', JSON.stringify(data));
+            loadAll(); closeModal('personalModal');
+            if(typeof showNotification==='function') showNotification('✅ Personal info saved!','success');
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+        function saveMedical() {
+            const data = { allergies: document.getElementById('inAllergies').value, conditions: document.getElementById('inConditions').value, meds: document.getElementById('inMeds').value, surgeries: document.getElementById('inSurgeries').value };
+            localStorage.setItem('profile_medical', JSON.stringify(data));
+            loadAll(); closeModal('medicalModal');
+            if(typeof showNotification==='function') showNotification('✅ Medical info saved!','success');
         }
 
-        function saveProfileEdit(e) {
-            e.preventDefault();
-            
-            const user = JSON.parse(localStorage.getItem('medmind_user'));
-            user.name = document.getElementById('editName').value;
-            user.email = document.getElementById('editEmail').value;
-            user.height = document.getElementById('editHeight').value + ' cm';
-            user.weight = document.getElementById('editWeight').value + ' kg';
-            
-            localStorage.setItem('medmind_user', JSON.stringify(user));
-            loadProfile();
-            closeModal('editProfileModal');
-            showNotification('Profile updated successfully', 'success');
+        function saveInsurance() {
+            const data = { provider: document.getElementById('inProvider').value, policy: document.getElementById('inPolicy').value, group: document.getElementById('inGroup').value, expiry: document.getElementById('inExpiry').value };
+            localStorage.setItem('profile_insurance', JSON.stringify(data));
+            loadAll(); closeModal('insuranceModal');
+            if(typeof showNotification==='function') showNotification('✅ Insurance info saved!','success');
         }
 
-        function toggleDarkMode() {
-            const isDark = document.getElementById('darkModeToggle').checked;
-            localStorage.setItem('darkMode', isDark);
-            document.documentElement.classList.toggle('dark-mode', isDark);
-            showNotification(isDark ? 'Dark mode enabled' : 'Dark mode disabled', 'info');
-        }
-
-        function updateNotifications() {
-            showNotification('Notification settings updated', 'success');
-        }
-
-        function updateDataSharing() {
-            showNotification('Data sharing settings updated', 'success');
-        }
-
-        function syncWearables() {
-            showNotification('Syncing with wearable devices...', 'info');
-            setTimeout(() => {
-                showNotification('Sync completed successfully', 'success');
-            }, 2000);
-        }
-
-        function openMedicalModal() {
-            showNotification('Medical information update form would appear here', 'info');
-        }
-
-        function openInsuranceModal() {
-            showNotification('Insurance information update form would appear here', 'info');
-        }
-
-        function openEmergencyModal() {
-            showNotification('Emergency contact update form would appear here', 'info');
-        }
-
-        function openDocumentModal() {
-            showNotification('Document upload form would appear here', 'info');
-        }
-
-        function openPasswordModal() {
-            showNotification('Password change form would appear here', 'info');
-        }
-
-        function setupTwoFactor() {
-            showNotification('Two-factor authentication setup would appear here', 'info');
+        function saveEmergency() {
+            const data = { name: document.getElementById('inEName').value, relation: document.getElementById('inERelation').value, phone: document.getElementById('inEPhone').value, email: document.getElementById('inEEmail').value };
+            localStorage.setItem('profile_emergency', JSON.stringify(data));
+            loadAll(); closeModal('emergencyModal');
+            if(typeof showNotification==='function') showNotification('✅ Emergency contact saved!','success');
         }
 
         function logout() {
@@ -547,25 +512,13 @@
             }
         }
 
-        function deleteAccount() {
-            if (confirm('Are you sure? This action cannot be undone.')) {
-                if (confirm('Type DELETE to confirm account deletion')) {
-                    localStorage.removeItem('medmind_user');
-                    window.location.href = 'index.html';
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadProfile);
-
-        // Close modal on background click
-        document.getElementById('editProfileModal')?.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('editProfileModal')) {
-                closeModal('editProfileModal');
-            }
+        // Close modal on background tap
+        document.querySelectorAll('.edit-modal').forEach(m => {
+            m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
         });
+
+        document.addEventListener('DOMContentLoaded', loadAll);
     </script>
-    
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
